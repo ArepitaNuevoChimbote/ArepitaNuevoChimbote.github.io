@@ -1,0 +1,538 @@
+/* =========================================================================
+   AREPITA FAST FOOD — LANDING DE REDES SOCIALES
+   Sistema de diseño premium inspirado en la bandera de Venezuela,
+   usada como acento — nunca como protagonista. Fondo blanco,
+   tipografía con carácter, movimiento contenido y deliberado.
+   ========================================================================= */
+
+/* ---------------------------------------------------------------------
+   1. TOKENS DE DISEÑO
+   --------------------------------------------------------------------- */
+:root {
+  /* Paleta — bandera de Venezuela, usada como detalle, no como fondo */
+  --azul:      #0033A0;
+  --amarillo:  #F4C300;
+  --rojo:      #CF142B;
+  --negro:     #1A1A1A;
+  --blanco:    #FFFFFF;
+
+  /* Superficies */
+  --bg:            #FFFFFF;
+  --bg-warm:       #FCFBF8; /* blanco cálido, casi imperceptible, da profundidad */
+  --surface:       #FFFFFF;
+  --surface-line:  rgba(26, 26, 26, 0.08);
+  --ink:           var(--negro);
+  --ink-soft:      #55534E;
+  --ink-faint:     #8C8A83;
+
+  /* Tipografía */
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-body: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Radios y sombras */
+  --radius-xl: 28px;
+  --radius-lg: 22px;
+  --radius-md: 16px;
+  --radius-full: 999px;
+
+  --shadow-soft:  0 2px 10px rgba(26, 26, 26, 0.05), 0 12px 32px rgba(26, 26, 26, 0.06);
+  --shadow-lift:  0 8px 20px rgba(26, 26, 26, 0.08), 0 24px 48px rgba(26, 26, 26, 0.10);
+
+  /* Ritmo de movimiento */
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft:     cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast:      0.22s;
+  --dur-base:      0.5s;
+  --dur-slow:      0.9s;
+
+  /* Colores de marca oficiales */
+  --ig-1: #FEDA75;
+  --ig-2: #FA7E1E;
+  --ig-3: #D62976;
+  --ig-4: #962FBF;
+  --ig-5: #4F5BD5;
+  --tiktok: #010101;
+  --tiktok-cyan: #25F4EE;
+  --tiktok-pink: #FE2C55;
+  --fb: #1877F2;
+  --wa: #25D366;
+  --wa-dark: #128C4A;
+}
+
+/* ---------------------------------------------------------------------
+   2. RESET Y BASE
+   --------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background: var(--bg-warm);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+img { max-width: 100%; display: block; }
+
+a { text-decoration: none; color: inherit; }
+
+button { font-family: inherit; }
+
+/* Foco visible para navegación por teclado */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--azul);
+  outline-offset: 3px;
+  border-radius: var(--radius-md);
+}
+
+/* Respeta la preferencia del usuario de reducir movimiento */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   3. FONDO DECORATIVO — manchas de color muy sutiles
+   --------------------------------------------------------------------- */
+.bg-decor {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.14;
+  will-change: transform;
+}
+
+.blob--blue {
+  width: 380px;
+  height: 380px;
+  top: -140px;
+  left: -120px;
+  background: var(--azul);
+  animation: drift 16s ease-in-out infinite;
+}
+
+.blob--yellow {
+  width: 300px;
+  height: 300px;
+  top: 30%;
+  right: -140px;
+  background: var(--amarillo);
+  opacity: 0.16;
+  animation: drift 20s ease-in-out infinite reverse;
+}
+
+.blob--red {
+  width: 320px;
+  height: 320px;
+  bottom: -160px;
+  left: 10%;
+  background: var(--rojo);
+  opacity: 0.12;
+  animation: drift 18s ease-in-out infinite;
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(24px, -18px) scale(1.06); }
+}
+
+/* ---------------------------------------------------------------------
+   4. LAYOUT GENERAL
+   --------------------------------------------------------------------- */
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: clamp(28px, 8vw, 56px) clamp(20px, 6vw, 32px) 40px;
+}
+
+/* ---------------------------------------------------------------------
+   5. HERO / ENCABEZADO
+   --------------------------------------------------------------------- */
+.hero {
+  text-align: center;
+  padding-top: clamp(8px, 3vw, 20px);
+}
+
+.hero__logo-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.hero__logo-glow {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(244, 195, 0, 0.25) 0%, rgba(244, 195, 0, 0) 70%);
+  z-index: -1;
+  animation: pulse-glow 5s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.12); opacity: 1; }
+}
+
+.hero__logo {
+  width: min(78vw, 340px);
+  height: auto;
+}
+
+.hero__eyebrow {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.05rem, 4vw, 1.3rem);
+  color: var(--ink);
+  margin: 4px 0 2px;
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(3rem, 16vw, 5.2rem);
+  letter-spacing: -0.01em;
+  line-height: 0.95;
+  margin: 0 0 18px;
+  color: var(--azul);
+  text-shadow: 3px 3px 0 rgba(244, 195, 0, 0.35);
+}
+
+.hero__subtitle {
+  font-size: clamp(1rem, 4vw, 1.15rem);
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 40ch;
+  margin: 0 auto;
+  font-weight: 500;
+}
+
+.hl { font-weight: 700; }
+.hl--blue   { color: var(--azul); }
+.hl--yellow { color: #B58900; } /* tono ajustado del amarillo para contraste legible en texto */
+.hl--red    { color: var(--rojo); }
+
+/* Divisor tricolor — el detalle "bandera" del sistema, usado con moderación */
+.tricolor-rule {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: 26px 0 0;
+}
+
+.tricolor-rule span {
+  display: block;
+  height: 4px;
+  width: 34px;
+  border-radius: var(--radius-full);
+}
+
+.tricolor-rule span:nth-child(1) { background: var(--amarillo); }
+.tricolor-rule span:nth-child(2) { background: var(--azul); }
+.tricolor-rule span:nth-child(3) { background: var(--rojo); }
+
+.tricolor-rule--sm span { width: 22px; height: 3px; }
+
+/* ---------------------------------------------------------------------
+   6. TARJETAS DE REDES SOCIALES
+   --------------------------------------------------------------------- */
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 18px;
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  border: 1px solid var(--surface-line);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  isolation: isolate;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform var(--dur-fast) var(--ease-soft),
+    box-shadow var(--dur-fast) var(--ease-soft),
+    border-color var(--dur-fast) var(--ease-soft);
+}
+
+/* leve barniz de cristal — glassmorphism muy ligero */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.5), rgba(255,255,255,0) 40%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card:hover,
+.card:focus-visible {
+  transform: translateY(-4px) scale(1.008);
+  box-shadow: var(--shadow-lift);
+  border-color: rgba(26, 26, 26, 0.14);
+}
+
+.card:active { transform: translateY(-1px) scale(0.995); }
+
+.card__icon {
+  position: relative;
+  z-index: 2;
+  flex: none;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+  transition: transform var(--dur-fast) var(--ease-soft);
+}
+
+.card:hover .card__icon { transform: scale(1.06) rotate(-3deg); }
+
+.card__icon svg { width: 26px; height: 26px; }
+
+.card__body {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.card__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+
+.card__text {
+  font-size: 0.86rem;
+  line-height: 1.35;
+  color: var(--ink-soft);
+}
+
+.card__cta {
+  position: relative;
+  z-index: 2;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(26, 26, 26, 0.05);
+  color: var(--ink);
+  transition: background var(--dur-fast) var(--ease-soft), transform var(--dur-fast) var(--ease-soft);
+}
+
+.card__arrow { display: flex; }
+.card__arrow svg { width: 18px; height: 18px; }
+
+.card:hover .card__cta { transform: translateX(2px); }
+
+.card__cta-label { display: none; } /* visible solo en la variante "pill" de WhatsApp */
+
+/* Marcas — colores oficiales de cada red */
+.card--instagram .card__icon {
+  background: linear-gradient(135deg, var(--ig-1), var(--ig-2), var(--ig-3), var(--ig-4), var(--ig-5));
+}
+.card--instagram:hover { border-color: rgba(214, 41, 118, 0.35); }
+.card--instagram:hover .card__cta { background: rgba(214, 41, 118, 0.12); color: var(--ig-3); }
+
+.card--tiktok .card__icon {
+  background: var(--tiktok);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+.card--tiktok:hover { border-color: rgba(0,0,0,0.2); }
+.card--tiktok:hover .card__cta { background: rgba(0,0,0,0.08); }
+
+.card--facebook .card__icon { background: var(--fb); }
+.card--facebook:hover { border-color: rgba(24, 119, 242, 0.35); }
+.card--facebook:hover .card__cta { background: rgba(24, 119, 242, 0.12); color: var(--fb); }
+
+.card--whatsapp {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F3FBF6 100%);
+}
+.card--whatsapp .card__icon { background: linear-gradient(135deg, var(--wa), var(--wa-dark)); }
+.card--whatsapp:hover { border-color: rgba(37, 211, 102, 0.4); }
+
+.card--whatsapp .card__cta--pill {
+  width: auto;
+  height: 42px;
+  padding: 0 18px;
+  border-radius: var(--radius-full);
+  background: var(--wa);
+  color: #fff;
+  gap: 8px;
+  box-shadow: 0 8px 18px rgba(37, 211, 102, 0.35);
+}
+.card--whatsapp .card__cta--pill .card__cta-label {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.card--whatsapp:hover .card__cta--pill {
+  background: var(--wa-dark);
+  transform: translateX(0) scale(1.03);
+}
+
+.card--google .card__icon { background: #fff; border: 1px solid var(--surface-line); }
+
+/* ---------------------------------------------------------------------
+   7. RIPPLE — microinteracción táctil en las tarjetas
+   --------------------------------------------------------------------- */
+.ripple {
+  position: absolute;
+  z-index: 1;
+  border-radius: 50%;
+  background: rgba(26, 26, 26, 0.12);
+  transform: scale(0);
+  animation: ripple-anim 0.6s var(--ease-out);
+  pointer-events: none;
+}
+
+.card--whatsapp .ripple,
+.card--instagram .ripple { background: rgba(255,255,255,0.4); }
+
+@keyframes ripple-anim {
+  to { transform: scale(2.6); opacity: 0; }
+}
+
+/* ---------------------------------------------------------------------
+   8. GOOGLE REVIEWS (reservado)
+   --------------------------------------------------------------------- */
+.reviews { margin-top: 16px; }
+.reviews[hidden] { display: none; }
+
+/* ---------------------------------------------------------------------
+   9. FOOTER
+   --------------------------------------------------------------------- */
+.footer {
+  text-align: center;
+  margin-top: 52px;
+}
+
+.footer__phrase {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.05rem, 4.2vw, 1.25rem);
+  color: var(--ink-soft);
+  margin: 18px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.footer__heart {
+  color: var(--rojo);
+  font-size: 1.1em;
+  animation: heartbeat 2.4s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.18); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.12); }
+  60% { transform: scale(1); }
+}
+
+/* ---------------------------------------------------------------------
+   10. ANIMACIONES DE ENTRADA (controladas por script.js vía IntersectionObserver)
+   --------------------------------------------------------------------- */
+[data-reveal] {
+  opacity: 0;
+}
+
+[data-reveal="logo"] {
+  transform: scale(0.82);
+  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
+}
+
+[data-reveal="fade"] {
+  transform: translateY(14px);
+  transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+}
+
+[data-reveal="card"] {
+  transform: translateY(22px);
+  transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+}
+
+[data-reveal-delay="1"] { transition-delay: 0.05s; }
+[data-reveal-delay="2"] { transition-delay: 0.16s; }
+[data-reveal-delay="3"] { transition-delay: 0.27s; }
+[data-reveal-delay="4"] { transition-delay: 0.38s; }
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------------------------------------------------------------------
+   11. RESPONSIVE — ajustes finos para pantallas muy pequeñas y grandes
+   --------------------------------------------------------------------- */
+@media (max-width: 360px) {
+  .card { padding: 14px; gap: 12px; }
+  .card__icon { width: 46px; height: 46px; border-radius: 14px; }
+  .card__icon svg { width: 22px; height: 22px; }
+  .card__name { font-size: 1.02rem; }
+  .card__text { font-size: 0.8rem; }
+}
+
+@media (min-width: 640px) {
+  .page { padding-top: 64px; }
+  .card { padding: 22px 24px; }
+}
+
+/* Pantallas muy altas / con notch: evita que el contenido quede pegado a bordes */
+@supports (padding: max(0px)) {
+  .page {
+    padding-left: max(clamp(20px, 6vw, 32px), env(safe-area-inset-left));
+    padding-right: max(clamp(20px, 6vw, 32px), env(safe-area-inset-right));
+    padding-bottom: max(40px, env(safe-area-inset-bottom));
+  }
+}
